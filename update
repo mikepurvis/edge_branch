@@ -24,6 +24,11 @@ EDGE_BRANCH = 'kinetic-edge'
 ORIGIN_NAME = 'upstream'
 
 
+subprocess.check_call(['git', 'fetch', ORIGIN_NAME])
+subprocess.check_call(['git', 'clean', '-f'])
+subprocess.check_call(['git', 'checkout', EDGE_BRANCH])
+subprocess.check_call(['git', 'reset', '--hard', '%s/%s' % (ORIGIN_NAME, DEVEL_BRANCH)])
+
 def get_prs():
     r = requests.get('https://github.com/%s/labels/hitlist' % GITHUB_REPO)
     soup = BeautifulSoup(r.text, 'html.parser')
@@ -33,11 +38,6 @@ def get_prs():
         yield (link['href'].split('/')[-1],
                'https://github.com%s.diff' % link['href'],
                link.text.strip())
-
-subprocess.check_call(['git', 'fetch', ORIGIN_NAME])
-subprocess.check_call(['git', 'clean', '-f'])
-subprocess.check_call(['git', 'checkout', EDGE_BRANCH])
-subprocess.check_call(['git', 'reset', '--hard', '%s/%s' % (ORIGIN_NAME, DEVEL_BRANCH)])
 
 for number, diff_url, description in get_prs():
     print 'Applying %s' % diff_url

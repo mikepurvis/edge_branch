@@ -19,9 +19,9 @@ import subprocess
 from bs4 import BeautifulSoup
 
 GITHUB_REPO = 'ros/ros_comm'
-DEVEL_BRANCH = 'kinetic-devel'
-EDGE_BRANCH = 'kinetic-edge'
-ORIGIN_NAME = 'upstream'
+DEVEL_BRANCH = 'lunar-devel'
+EDGE_BRANCH = 'lunar-edge'
+ORIGIN_NAME = 'origin'
 
 
 subprocess.check_call(['git', 'fetch', ORIGIN_NAME])
